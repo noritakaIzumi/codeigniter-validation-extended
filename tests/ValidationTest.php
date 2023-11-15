@@ -7,6 +7,9 @@ use Config\Services as AppServices;
 use Config\Validation as ValidationConfig;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \app\ValidatorRulesCreator
+ */
 class ValidationTest extends TestCase
 {
     protected static ?Validation $orgValidator;
