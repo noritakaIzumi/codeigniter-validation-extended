@@ -10,7 +10,8 @@
       "Validator\\": "Validator"
     },
     "files": [
-      "vendor/codeigniter4/framework/system/Common.php"
+      "vendor/codeigniter4/framework/system/Common.php",
+      "vendor/codeigniter4/framework/system/Helpers/array_helper.php"
     ]
   },
   "scripts": {

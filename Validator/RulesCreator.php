@@ -8,5 +8,26 @@ namespace Validator;
  */
 class RulesCreator
 {
+    /**
+     * @var Field[]
+     */
+    protected array $fields = [];
 
+    public function addField(Field $field): void
+    {
+        $this->fields[] = $field;
+    }
+
+    public function export(): array
+    {
+        $rules = [];
+        foreach ($this->fields as $field) {
+            $rules[$field->name] = [
+                'label' => $field->label,
+                'rules' => $field->rules->_export(),
+            ];
+        }
+
+        return $rules;
+    }
 }
