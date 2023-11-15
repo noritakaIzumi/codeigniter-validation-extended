@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Testsa;
 
 use CodeIgniter\Validation\Validation;
 use Config\Services as AppServices;
@@ -8,7 +8,7 @@ use Config\Validation as ValidationConfig;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \app\ValidatorRulesCreator
+ * @covers \Validator\ValidatorRulesCreator
  */
 class ValidationTest extends TestCase
 {

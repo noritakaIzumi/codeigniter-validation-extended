@@ -6,7 +6,8 @@
   "autoload": {
     "psr-4": {
       "Config\\": "vendor/codeigniter4/framework/app/Config",
-      "Tests\\": "tests"
+      "Tests\\": "Tests",
+      "Validator\\": "Validator"
     },
     "files": [
       "vendor/codeigniter4/framework/system/Common.php"

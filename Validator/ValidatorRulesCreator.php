@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace Validator;
 
 /**
  * CodeIgniter のバリデーターに渡すルールの配列を生成するクラス。
