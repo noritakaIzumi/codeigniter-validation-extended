@@ -12,5 +12,8 @@
     "files": [
       "vendor/codeigniter4/framework/system/Common.php"
     ]
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
