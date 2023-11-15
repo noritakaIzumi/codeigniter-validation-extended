@@ -4,7 +4,6 @@ services:
   php:
     build:
       context: .
-    tty: true
     working_dir: /app
     volumes:
       - type: bind
