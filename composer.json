@@ -1,0 +1,15 @@
+{
+  "require": {
+    "codeigniter4/framework": "v4.4.3",
+    "phpunit/phpunit": "10.4.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Config\\": "vendor/codeigniter4/framework/app/Config",
+      "Tests\\": "tests"
+    },
+    "files": [
+      "vendor/codeigniter4/framework/system/Common.php"
+    ]
+  }
+}
