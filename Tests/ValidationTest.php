@@ -89,6 +89,7 @@ class ValidationTest extends TestCase
             [new PasswordProvider(['password' => str_repeat('a', 7)], false, 'less than 8 chars')],
             [new PasswordProvider(['password' => str_repeat('a', 8)], true, 'exact 8 chars')],
             [new PasswordProvider(['password' => str_repeat('a', 255)], true, 'exact 255 chars')],
+            [new PasswordProvider(['password' => str_repeat('a', 256)], false, 'more than 255 chars')],
             [new PasswordProvider(['password' => 'Password'], true, 'contains alphanumeric')],
             [new PasswordProvider(['password' => '~!#$%&*-_+=|:.'], true, 'contains figures')],
             [new PasswordProvider(['password' => '////////'], false, 'prohibited figures included')],
