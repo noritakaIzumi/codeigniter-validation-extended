@@ -2,9 +2,8 @@
 
 namespace Tests;
 
+use CodeIgniter\Config\Services;
 use CodeIgniter\Validation\Validation;
-use Config\Services as AppServices;
-use Config\Validation as ValidationConfig;
 use PHPUnit\Framework\TestCase;
 use Tests\Support\UsernameProvider;
 use Validator\Field;
@@ -24,7 +23,7 @@ class ValidationTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$orgValidator = new Validation(config(ValidationConfig::class), AppServices::renderer());
+        self::$orgValidator = Services::validation();
         self::$orgRulesCreator = new RulesCreator();
     }
 
