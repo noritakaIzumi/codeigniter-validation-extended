@@ -42,6 +42,9 @@ class ValidationTest extends TestCase
         $this->rulesCreator = null;
     }
 
+    /**
+     * @return array<array{0: UsernameProvider}>
+     */
     public static function usernameProvider(): array
     {
         return [
@@ -75,6 +78,9 @@ class ValidationTest extends TestCase
         $this->assertSame($provider->isValid, $this->validation->run($provider->data), $provider->message);
     }
 
+    /**
+     * @return array<array{0: PasswordProvider}>
+     */
     public static function passwordProvider(): array
     {
         return [
