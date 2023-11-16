@@ -32,4 +32,11 @@ class Rules
         $this->rules[] = "max_length[$length]";
         return $this;
     }
+
+    /** @noinspection SpellCheckingInspection */
+    public function alphaNumericPunct(): static
+    {
+        $this->rules[] = "alpha_numeric_punct";
+        return $this;
+    }
 }
