@@ -9,7 +9,7 @@ class Rules
      */
     protected array $rules = [];
 
-    public function _export(): array
+    public function export(): array
     {
         return $this->rules;
     }
