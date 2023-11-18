@@ -4,15 +4,14 @@ namespace Validator;
 
 class Rules
 {
-    protected const DELIMITER = '|';
     /**
      * @var string[]
      */
     protected array $rules = [];
 
-    public function _export(): string
+    public function _export(): array
     {
-        return implode(self::DELIMITER, $this->rules);
+        return $this->rules;
     }
 
     public function required(): static
