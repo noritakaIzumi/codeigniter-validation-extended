@@ -5,8 +5,6 @@ namespace Tests;
 use CodeIgniter\Config\Services;
 use CodeIgniter\Validation\Validation;
 use PHPUnit\Framework\TestCase;
-use Tests\Support\PasswordProvider;
-use Tests\Support\UsernameProvider;
 use Validator\Field;
 use Validator\FieldRule;
 use Validator\RulesCreator;
@@ -43,17 +41,17 @@ class ValidationTest extends TestCase
     }
 
     /**
-     * @return array<array{0: UsernameProvider}>
+     * @return array<array{0: array, 1: bool, 2: string}>
      */
     public static function usernameProvider(): array
     {
         return [
-            [new UsernameProvider([], false, 'field is missing')],
-            [new UsernameProvider(['username' => ''], false, 'empty username')],
-            [new UsernameProvider(['username' => 'ab'], false, 'less than 3 chars')],
-            [new UsernameProvider(['username' => 'abc'], true, 'exact 3 chars')],
-            [new UsernameProvider(['username' => 'gatheringforfriendlydiscussion'], true, 'exact 30 chars')],
-            [new UsernameProvider(['username' => 'vocationalrehabilitationprogram'], false, 'more than 30 chars')],
+            [[], false, 'field is missing'],
+            [['username' => ''], false, 'empty username'],
+            [['username' => 'ab'], false, 'less than 3 chars'],
+            [['username' => 'abc'], true, 'exact 3 chars'],
+            [['username' => 'gatheringforfriendlydiscussion'], true, 'exact 30 chars'],
+            [['username' => 'vocationalrehabilitationprogram'], false, 'more than 30 chars'],
         ];
     }
 
@@ -63,10 +61,12 @@ class ValidationTest extends TestCase
      * $validation->setRule('username', 'Username', 'required|max_length[30]|min_length[3]');
      * ```
      * @dataProvider usernameProvider
-     * @param UsernameProvider $provider
+     * @param array $data
+     * @param bool $isValid
+     * @param string $message
      * @return void
      */
-    public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(UsernameProvider $provider): void
+    public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(array $data, bool $isValid, string $message): void
     {
         $fieldRule = new FieldRule();
         $fieldRule->required()->minLength(3)->maxLength(30);
@@ -75,24 +75,24 @@ class ValidationTest extends TestCase
 
         $this->validation->setRules($this->rulesCreator->export());
 
-        $this->assertSame($provider->isValid, $this->validation->run($provider->data), $provider->message);
+        $this->assertSame($isValid, $this->validation->run($data), $message);
     }
 
     /**
-     * @return array<array{0: PasswordProvider}>
+     * @return array<array{0: array, 1: bool, 2: string}>
      */
     public static function passwordProvider(): array
     {
         return [
-            [new PasswordProvider([], false, 'password is missing')],
-            [new PasswordProvider(['password' => ''], false, 'empty password')],
-            [new PasswordProvider(['password' => str_repeat('a', 7)], false, 'less than 8 chars')],
-            [new PasswordProvider(['password' => str_repeat('a', 8)], true, 'exact 8 chars')],
-            [new PasswordProvider(['password' => str_repeat('a', 255)], true, 'exact 255 chars')],
-            [new PasswordProvider(['password' => str_repeat('a', 256)], false, 'more than 255 chars')],
-            [new PasswordProvider(['password' => 'Password'], true, 'contains alphanumeric')],
-            [new PasswordProvider(['password' => '~!#$%&*-_+=|:.'], true, 'contains figures')],
-            [new PasswordProvider(['password' => '////////'], false, 'prohibited figures included')],
+            [[], false, 'password is missing'],
+            [['password' => ''], false, 'empty password'],
+            [['password' => str_repeat('a', 7)], false, 'less than 8 chars'],
+            [['password' => str_repeat('a', 8)], true, 'exact 8 chars'],
+            [['password' => str_repeat('a', 255)], true, 'exact 255 chars'],
+            [['password' => str_repeat('a', 256)], false, 'more than 255 chars'],
+            [['password' => 'Password'], true, 'contains alphanumeric'],
+            [['password' => '~!#$%&*-_+=|:.'], true, 'contains figures'],
+            [['password' => '////////'], false, 'prohibited figures included'],
         ];
     }
 
@@ -102,10 +102,12 @@ class ValidationTest extends TestCase
      * $validation->setRule('password', 'Password', ['required', 'max_length[255]', 'min_length[8]', 'alpha_numeric_punct']);
      * ```
      * @dataProvider passwordProvider
-     * @param PasswordProvider $provider
+     * @param array $data
+     * @param bool $isValid
+     * @param string $message
      * @return void
      */
-    public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(PasswordProvider $provider): void
+    public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(array $data, bool $isValid, string $message): void
     {
         $fieldRule = new FieldRule();
         $fieldRule->required()->minLength(8)->maxLength(255)->alphaNumericPunct();
@@ -114,6 +116,6 @@ class ValidationTest extends TestCase
 
         $this->validation->setRules($this->rulesCreator->export());
 
-        $this->assertSame($provider->isValid, $this->validation->run($provider->data), $provider->message);
+        $this->assertSame($isValid, $this->validation->run($data), $message);
     }
 }
