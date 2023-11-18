@@ -2,7 +2,7 @@
 
 namespace Validator;
 
-class Rules
+class FieldRule
 {
     /**
      * @var string[]

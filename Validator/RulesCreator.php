@@ -24,7 +24,7 @@ class RulesCreator
         foreach ($this->fields as $field) {
             $rules[$field->name] = [
                 'label' => $field->label,
-                'rules' => $field->rules->export(),
+                'rules' => $field->fieldRules->export(),
             ];
         }
 

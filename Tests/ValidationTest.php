@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Tests\Support\PasswordProvider;
 use Tests\Support\UsernameProvider;
 use Validator\Field;
-use Validator\Rules;
+use Validator\FieldRule;
 use Validator\RulesCreator;
 
 /**
@@ -68,9 +68,9 @@ class ValidationTest extends TestCase
      */
     public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(UsernameProvider $provider): void
     {
-        $rules = new Rules();
-        $rules->required()->minLength(3)->maxLength(30);
-        $field = new Field(name: 'username', label: 'Username', rules: $rules);
+        $fieldRule = new FieldRule();
+        $fieldRule->required()->minLength(3)->maxLength(30);
+        $field = new Field(name: 'username', label: 'Username', fieldRules: $fieldRule);
         $this->rulesCreator->addField($field);
 
         $this->validation->setRules($this->rulesCreator->export());
@@ -107,9 +107,9 @@ class ValidationTest extends TestCase
      */
     public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(PasswordProvider $provider): void
     {
-        $rules = new Rules();
-        $rules->required()->minLength(8)->maxLength(255)->alphaNumericPunct();
-        $field = new Field(name: 'password', label: 'Password', rules: $rules);
+        $fieldRule = new FieldRule();
+        $fieldRule->required()->minLength(8)->maxLength(255)->alphaNumericPunct();
+        $field = new Field(name: 'password', label: 'Password', fieldRules: $fieldRule);
         $this->rulesCreator->addField($field);
 
         $this->validation->setRules($this->rulesCreator->export());
