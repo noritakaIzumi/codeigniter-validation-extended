@@ -13,19 +13,26 @@ class RulesCreator
      */
     protected array $fields = [];
 
-    public function addField(Field $field): void
+    public function addField(Field $field): static
     {
         $this->fields[] = $field;
+        return $this;
     }
 
     public function export(): array
     {
         $rules = [];
         foreach ($this->fields as $field) {
-            $rules[$field->name] = [
+            $rule = [
                 'label' => $field->label,
-                'rules' => $field->rules->export(),
+                'rules' => $field->rules->getRules(),
             ];
+            $errors = $field->rules->getErrors();
+            if ($errors !== []) {
+                $rule['errors'] = $errors;
+            }
+
+            $rules[$field->name] = $rule;
         }
 
         return $rules;
