@@ -62,20 +62,31 @@ class ValidationTest extends TestCase
      * ```
      * @dataProvider usernameProvider
      * @param array $data
-     * @param bool $isValid
+     * @param bool $expectedIsValid
      * @param string $message
      * @return void
      */
-    public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(array $data, bool $isValid, string $message): void
+    public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(array $data, bool $expectedIsValid, string $message): void
     {
+        /*
+         * given
+         */
         $fieldRule = new FieldRules();
         $fieldRule->required()->minLength(3)->maxLength(30);
         $field = new Field(name: 'username', label: 'Username', rules: $fieldRule);
         $this->rulesCreator->addField($field);
+        $validationRules = $this->rulesCreator->export();
 
-        $this->validation->setRules($this->rulesCreator->export());
+        /*
+         * when
+         */
+        $this->validation->setRules($validationRules);
+        $isValid = $this->validation->run($data);
 
-        $this->assertSame($isValid, $this->validation->run($data), $message);
+        /*
+         * then
+         */
+        $this->assertSame($expectedIsValid, $isValid, $message);
     }
 
     /**
@@ -103,24 +114,38 @@ class ValidationTest extends TestCase
      * ```
      * @dataProvider passwordProvider
      * @param array $data
-     * @param bool $isValid
+     * @param bool $expectedIsValid
      * @param string $message
      * @return void
      */
-    public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(array $data, bool $isValid, string $message): void
+    public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(array $data, bool $expectedIsValid, string $message): void
     {
+        /*
+         * given
+         */
         $fieldRule = new FieldRules();
         $fieldRule->required()->minLength(8)->maxLength(255)->alphaNumericPunct();
         $field = new Field(name: 'password', label: 'Password', rules: $fieldRule);
         $this->rulesCreator->addField($field);
+        $validationRules = $this->rulesCreator->export();
 
-        $this->validation->setRules($this->rulesCreator->export());
+        /*
+         * when
+         */
+        $this->validation->setRules($validationRules);
+        $isValid = $this->validation->run($data);
 
-        $this->assertSame($isValid, $this->validation->run($data), $message);
+        /*
+         * then
+         */
+        $this->assertSame($expectedIsValid, $isValid, $message);
     }
 
     public function testErrorMessages(): void
     {
+        /*
+         * given
+         */
         # username
         $usernameFieldRules = new FieldRules();
         $usernameFieldRules
@@ -143,11 +168,16 @@ class ValidationTest extends TestCase
             ->addField($usernameField)
             ->addField($passwordField);
 
+        /*
+         * when
+         */
         $this->validation = \Config\Services::validation();
         $this->validation->setRules($this->rulesCreator->export());
-
         $this->validation->run(['password' => 'a']);
 
+        /*
+         * then
+         */
         $this->assertSame(
             [
                 'username' => 'All accounts must have Username provided',
