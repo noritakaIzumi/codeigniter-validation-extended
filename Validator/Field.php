@@ -7,9 +7,9 @@ readonly class Field
     /**
      * @param string $name
      * @param string $label
-     * @param FieldRule $fieldRules
+     * @param FieldRules $rules
      */
-    public function __construct(public string $name, public string $label, public FieldRule $fieldRules)
+    public function __construct(public string $name, public string $label, public FieldRules $rules)
     {
     }
 }

@@ -6,7 +6,7 @@ use CodeIgniter\Config\Services;
 use CodeIgniter\Validation\Validation;
 use PHPUnit\Framework\TestCase;
 use Validator\Field;
-use Validator\FieldRule;
+use Validator\FieldRules;
 use Validator\RulesCreator;
 
 /**
@@ -68,9 +68,9 @@ class ValidationTest extends TestCase
      */
     public function testUsernameIsRequiredAnd3CharsAtLeastAnd30CharsAtMost(array $data, bool $isValid, string $message): void
     {
-        $fieldRule = new FieldRule();
+        $fieldRule = new FieldRules();
         $fieldRule->required()->minLength(3)->maxLength(30);
-        $field = new Field(name: 'username', label: 'Username', fieldRules: $fieldRule);
+        $field = new Field(name: 'username', label: 'Username', rules: $fieldRule);
         $this->rulesCreator->addField($field);
 
         $this->validation->setRules($this->rulesCreator->export());
@@ -109,9 +109,9 @@ class ValidationTest extends TestCase
      */
     public function testPasswordIsRequiredAnd8CharsAtLeastAnd255CharsAtMostAndAlphaNumericPunctual(array $data, bool $isValid, string $message): void
     {
-        $fieldRule = new FieldRule();
+        $fieldRule = new FieldRules();
         $fieldRule->required()->minLength(8)->maxLength(255)->alphaNumericPunct();
-        $field = new Field(name: 'password', label: 'Password', fieldRules: $fieldRule);
+        $field = new Field(name: 'password', label: 'Password', rules: $fieldRule);
         $this->rulesCreator->addField($field);
 
         $this->validation->setRules($this->rulesCreator->export());
