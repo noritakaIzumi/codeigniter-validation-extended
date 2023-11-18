@@ -118,4 +118,42 @@ class ValidationTest extends TestCase
 
         $this->assertSame($isValid, $this->validation->run($data), $message);
     }
+
+    public function testErrorMessages(): void
+    {
+        # username
+        $usernameFieldRules = new FieldRules();
+        $usernameFieldRules
+            ->required(message: 'All accounts must have {field} provided')
+            ->maxLength(30)
+            ->minLength(3);
+        $usernameField = new Field(name: 'username', label: 'Username', rules: $usernameFieldRules);
+
+        # password
+        $passwordFieldRules = new FieldRules();
+        $passwordFieldRules
+            ->required()
+            ->minLength(8, message: 'Your {field} is too short. You want to get hacked?')
+            ->maxLength(255)
+            ->alphaNumericPunct();
+        $passwordField = new Field(name: 'password', label: 'Password', rules: $passwordFieldRules);
+
+        $this->rulesCreator = new RulesCreator();
+        $this->rulesCreator
+            ->addField($usernameField)
+            ->addField($passwordField);
+
+        $this->validation = \Config\Services::validation();
+        $this->validation->setRules($this->rulesCreator->export());
+
+        $this->validation->run(['password' => 'a']);
+
+        $this->assertSame(
+            [
+                'username' => 'All accounts must have Username provided',
+                'password' => 'Your Password is too short. You want to get hacked?',
+            ],
+            $this->validation->getErrors()
+        );
+    }
 }
